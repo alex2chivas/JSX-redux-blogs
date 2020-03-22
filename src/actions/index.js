@@ -6,5 +6,5 @@ export const actionCreator = () => {
             Action Creator
         </div>
     );
-}
+};
 
