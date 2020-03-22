@@ -1,10 +1,15 @@
-import React from 'react';
+import axios from "axios";
+import jsonPlaceholder from '../apis/jsonPlaceholder';
 
-export const actionCreator = () => {
-    return (
-        <div>
-            Action Creator
-        </div>
-    );
-};
+export const fetchPosts = async() => {
+    const response = await jsonPlaceholder.get('/posts');
+
+    return {
+        type: 'FETCH_POSTS',
+        payload: response
+    }
+}
+
+
+
 
