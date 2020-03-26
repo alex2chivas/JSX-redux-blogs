@@ -20,6 +20,7 @@ class UserHeader extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	// Note // state para: is a dispatch and ownProps para: is our own manual props that we passed into UserHeader component
+	// Lodash // memoize is good for calling api's
 	return { user: state.users.find(user => user.id === ownProps.userId) };
 };
 
