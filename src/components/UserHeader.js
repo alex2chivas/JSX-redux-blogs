@@ -11,7 +11,7 @@ class UserHeader extends Component {
 		const { user } = this.props;
 
 		if (!user) {
-			return <div className='ui active centered inline loader'>...loading</div>;
+			return <div className='ui active centered inline loader'>...</div>;
 		}
 
 		return <div className='header'>{user.name}</div>;

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
 export const fetchPosts = () => async dispatch => {
@@ -9,14 +10,29 @@ export const fetchPosts = () => async dispatch => {
 	});
 };
 
-export const fetchUser = id => async disptach => {
+export const fetchUser = id => dispatch => _fectchUser(id, dispatch);
+
+const _fectchUser = _.memoize(async (id, dispatch) => {
 	const response = await jsonPlaceholder.get(`./users/${id}`);
 
-	disptach({
+	dispatch({
 		type    : 'FETCH_USER',
 		payload : response.data
 	});
-};
+});
+
+// This will not work
+/*
+export const fetchUser = function (id) {
+	return _.memoize(async function (disptach) {
+		const response = await jsonPlaceholder.get(`./users/${id}`);
+
+		disptach({
+			type    : 'FETCH_USER',
+			payload : response.data
+		});
+	});
+}; */
 
 /* This is the same as the function sytax on the top
 export const fetchPosts = () => {
@@ -40,5 +56,4 @@ export const selectPost = () => {
         }
     }
 }
-
-*/
+ */
