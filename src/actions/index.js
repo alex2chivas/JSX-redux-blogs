@@ -1,5 +1,11 @@
-import _ from 'lodash';
+//import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
+
+export const fetchPostAndUsers = () => async dispatch => {
+	console.log('About to fetch posts');
+	await dispatch(fetchPosts());
+	console.log('fetched post!');
+};
 
 export const fetchPosts = () => async dispatch => {
 	const response = await jsonPlaceholder.get('/posts');
@@ -10,6 +16,19 @@ export const fetchPosts = () => async dispatch => {
 	});
 };
 
+export const fetchUser = id => async dispatch => {
+	const response = await jsonPlaceholder.get(`./users/${id}`);
+
+	dispatch({
+		type    : 'FETCH_USER',
+		payload : response.data
+	});
+};
+
+// Note
+// This version of the code is the one with the _.memoize from lodash to only make a single call
+/*
+
 export const fetchUser = id => dispatch => _fectchUser(id, dispatch);
 
 const _fectchUser = _.memoize(async (id, dispatch) => {
@@ -19,7 +38,20 @@ const _fectchUser = _.memoize(async (id, dispatch) => {
 		type    : 'FETCH_USER',
 		payload : response.data
 	});
+});export const fetchUser = id => dispatch => _fectchUser(id, dispatch);
+
+const _fectchUser = _.memoize(async (id, dispatch) => {
+	const response = await jsonPlaceholder.get(`./users/${id}`);
+
+	dispatch({
+		type    : 'FETCH_USER',
+		payload : response.data
+	});
 });
+
+
+*/
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // This will not work
 /*
@@ -34,6 +66,8 @@ export const fetchUser = function (id) {
 	});
 }; */
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /* This is the same as the function sytax on the top
 export const fetchPosts = () => {
 	return async (dispatch) => {
@@ -45,15 +79,3 @@ export const fetchPosts = () => {
 		});
 	};
 }; */
-
-/* Totally fine to make additional action creators besides the one on the top.
-export const selectPost = () => {
-    return {
-        type: 'SLECTED_POSTS',
-        payload: {
-            payment: 20,
-            balance: 100
-        }
-    }
-}
- */
