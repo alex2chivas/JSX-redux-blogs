@@ -1,10 +1,24 @@
-//import _ from 'lodash';
+import _ from 'lodash';
 import jsonPlaceholder from '../apis/jsonPlaceholder';
 
-export const fetchPostAndUsers = () => async dispatch => {
-	console.log('About to fetch posts');
+export const fetchPostAndUsers = () => async (dispatch, getState) => {
 	await dispatch(fetchPosts());
-	console.log('fetched post!');
+
+	// Note
+	// This is the first way of doing things
+	/*const userIds = _.uniq(_.map(getState().posts, 'userId'));
+	userIds.forEach(id => dispatch(fetchUser(id))); */
+
+	_.chain(getState().posts)
+		.map('userId')
+		.uniq()
+		.forEach(id => dispatch(fetchUser(id)))
+		.value()
+
+	// Note
+	// this is a way of possibly adding await to each single call from fetchUsers
+	// await Promise.all(userIds.map(id => dispatch(fetchUser(id))))
+	// or adding .then
 };
 
 export const fetchPosts = () => async dispatch => {
